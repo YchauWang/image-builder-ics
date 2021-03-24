@@ -1,0 +1,76 @@
+{
+  "variables": {
+    "ansible_common_vars": "",
+    "ansible_extra_vars": "ansible_python_interpreter=/usr/bin/python3",
+    "boot_wait": "10s",
+    "build_timestamp": "{{timestamp}}",
+    "user_ip": "192.168.43.128",
+    "dataplaneapi_version": "v1.2.4",
+    "dataplane_url": "http://{{user `user_ip`}}/haproxy/{{user `dataplaneapi_version`}}/dataplaneapi",
+    "existing_ansible_ssh_args": "{{env `ANSIBLE_SSH_ARGS`}}",
+    "accelerator": "kvm",
+    "cpus": "1",
+    "disk_size": "10240",
+    "memory": "2048",
+    "format": "qcow2",
+    "headless": "false",
+    "machine_id_mode": "444",
+    "python_path": "",
+    "output_directory": "./output/ikc-{{user `build_name`}}-haproxy-{{user `dataplaneapi_version`}}",
+    "qemu_binary": "qemu-system-x86_64",
+    "custom_role": "true",
+    "custom_role_names": "icsvmtools",
+    "icsvmtools_version": null,
+    "icsvmtools_url": "http://{{user `user_ip`}}/runtime/ics-vm-tools_{{user `icsvmtools_version`}}_amd64.deb",
+    "icsvmtools_sha256": null,
+    "ssh_password": "builder",
+    "ssh_username": "builder"
+  },
+  "builders": [
+    {
+      "vm_name": "ikc-{{user `build_name`}}-haproxy-{{user `dataplaneapi_version`}}.{{user `format`}}",
+      "output_directory": "{{user `output_directory`}}",
+      "type": "qemu",
+      "accelerator": "{{user `accelerator`}}",
+      "cpus": "{{user `cpus`}}",
+      "disk_size": "{{user `disk_size`}}",
+      "memory": "{{user `memory`}}",
+      "boot_wait": "{{user `boot_wait`}}",
+      "disk_interface": "virtio-scsi",
+      "format": "{{user `format`}}",
+      "headless": "{{user `headless`}}",
+      "http_directory": "./packer/qemu/linux/{{user `distro_name`}}/http/",
+      "iso_checksum": "{{user `iso_checksum_type`}}:{{user `iso_checksum`}}",
+      "iso_url": "{{user `iso_url`}}",
+      "boot_command": [
+        "{{user `boot_command_prefix`}}",
+        "http://{{ .HTTPIP }}:{{ .HTTPPort }}",
+        "{{user `boot_command_suffix`}}"
+      ],
+      "net_device": "virtio-net",
+      "qemu_binary": "{{user `qemu_binary`}}",
+      "shutdown_command": "echo '{{user `ssh_password`}}' | sudo -S -E sh -c 'usermod -L {{user `ssh_username`}} && {{user `shutdown_command`}}'",
+      "ssh_password": "{{user `ssh_password`}}",
+      "ssh_username": "{{user `ssh_username`}}",
+      "ssh_timeout": "2h"
+    }
+
+  ],
+  "provisioners": [
+    {
+      "type": "ansible",
+      "playbook_file": "./ansible/haproxy.yml",
+      "user": "builder",
+      "ansible_env_vars": [
+        "ANSIBLE_SSH_ARGS='{{user `existing_ansible_ssh_args`}} -o IdentitiesOnly=yes'",
+        "ANSIBLE_REMOTE_TEMP='/tmp/.ansible/'"
+      ],
+      "extra_arguments": [
+        "--extra-vars",
+        "{{user `ansible_common_vars`}}",
+        "--extra-vars",
+        "{{user `ansible_extra_vars`}}"
+      ]
+    }
+  ]
+}

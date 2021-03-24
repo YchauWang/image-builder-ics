@@ -1,0 +1,6 @@
+{
+    "icsvmtools_version": "6.0.0-3",
+    "icsvmtools_url": "http://{{user `user_ip`}}/runtime/ics-vm-tools_{{user `icsvmtools_version`}}_amd64.deb",
+    "icsvmtools_sha256": "77242bf02ef1b97b15fcd151eb194d601032fb31c91964815d83cc7fcd2d3990"
+}
+

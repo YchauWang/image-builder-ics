@@ -1,0 +1,8 @@
+{
+    "kubernetes_cni_semver": "v0.8.7",
+    "kubernetes_cni_rpm_version": "0.8.7-0",
+    "kubernetes_cni_deb_version": "0.8.7-00",
+    "kubernetes_cni_source_type": "pkg",
+    "kubernetes_cni_http_source": "http://{{user `user_ip`}}/runtime/",
+    "kubernetes_cni_http_checksum": "sha256:http://{{user `user_ip`}}/runtime/cni-plugins-linux-amd64-v0.8.7.tgz.sha256"
+}

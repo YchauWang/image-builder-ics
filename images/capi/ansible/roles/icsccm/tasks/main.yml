@@ -1,0 +1,126 @@
+# Copyright 2021 The ICS Authors.
+
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+
+# http://www.apache.org/licenses/LICENSE-2.0
+
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+---
+- name: download csi commom images
+  get_url:
+    url: "{{ ics_ccmcsi_http_source }}{{ item }}.tar"
+    dest: /tmp/
+    mode: 0600
+  loop: "{{ commonimages.split() }}"
+
+- name: ctr import csi common imagges
+  shell: "ctr -n k8s.io images import /tmp/{{ item }}.tar"
+  register: whatss
+  loop: "{{ commonimages.split() }}"
+
+- name: show why
+  debug: var=whatss verbosity=0
+
+- name: download csi commom images
+  get_url:
+    url: "{{ ics_ccmcsi_http_source }}{{ item }}.tar"
+    dest: /tmp/
+    mode: 0600
+  loop: "{{ icsimages.split() }}"
+
+- name: ctr import ics cloud controller manager images, cpi csi and so on
+  shell: "ctr -n k8s.io images import /tmp/{{ item }}.tar"
+  loop: "{{ icsimages.split() }}"
+
+- name: delete all csi common images
+  file:
+    path: "/tmp/{{ item }}.tar"
+    state: absent
+  loop: "{{ commonimages.split() }}"
+
+- name: delete all ics  images 
+  file:
+    path: "/tmp/{{ item }}.tar"
+    state: absent
+  loop: "{{ icsimages.split() }}"
+
+- name: Creates ccm conf directory
+  file:
+    path: /etc/cloud
+    state: directory
+
+- name: Creates ccm service yaml directory
+  file:
+    path: /etc/deploy
+    state: directory
+
+- name: copy in ics cpi conf
+  copy:
+    dest: /etc/cloud/ics.conf
+    src: etc/cloud/ics.conf
+    owner: root
+    group: root
+    mode: "0644"
+
+- name: copy in ics csi conf
+  copy:
+    dest: /etc/cloud/icsphere-csi.conf
+    src: etc/cloud/icsphere-csi.conf
+    owner: root
+    group: root
+    mode: "0644"
+
+- name: copy in ics-cloud-controller-manager-ds
+  copy:
+    dest: /etc/deploy/ics-cloud-controller-manager-ds.yaml
+    src: etc/deploy/ics-cloud-controller-manager-ds.yaml
+    owner: root
+    group: root
+    mode: "0644"
+
+- name: copy in ics-csi-controller
+  copy:
+    dest: /etc/deploy/ics-csi-controller.yaml
+    src: etc/deploy/ics-csi-controller.yaml
+    owner: root
+    group: root
+    mode: "0644"
+
+- name: copy in ics-csi-node
+  copy:
+    dest: /etc/deploy/ics-csi-node.yaml
+    src: etc/deploy/ics-csi-node.yaml
+    owner: root
+    group: root
+    mode: "0644"
+
+- name: copy in cloud-controller-manager-roles
+  copy:
+    dest: /etc/deploy/cloud-controller-manager-roles.yaml
+    src: etc/deploy/cloud-controller-manager-roles.yaml
+    owner: root
+    group: root
+    mode: "0644"
+
+- name: copy in cloud-controller-manager-role-bindings
+  copy:
+    dest: /etc/deploy/cloud-controller-manager-role-bindings.yaml
+    src: etc/deploy/cloud-controller-manager-role-bindings.yaml
+    owner: root
+    group: root
+    mode: "0644"
+
+- name: copy in ics-csi-controller-rbac
+  copy:
+    dest: /etc/deploy/ics-csi-controller-rbac.yaml
+    src: etc/deploy/ics-csi-controller-rbac.yaml
+    owner: root
+    group: root
+    mode: "0644"
+
