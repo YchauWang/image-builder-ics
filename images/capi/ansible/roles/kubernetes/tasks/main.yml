@@ -45,8 +45,13 @@
   set_fact:
     ecr: '{{ kubernetes_container_registry is regex("^[0-9]{12}.dkr.ecr.[^.]+.amazonaws.com$") }}'
 
-- import_tasks: kubeadmpull.yml
-  when: (kubernetes_source_type == "pkg" and ecr != true) or ansible_os_family == "Flatcar"
+    # origin
+    #- import_tasks: kubeadmpull.yml
+    #  when: (kubernetes_source_type == "pkg" and ecr != true) or ansible_os_family == "Flatcar"
+
+# ics ikc template
+- import_tasks: ikck8s.yml
+  when: (kubernetes_source_type == "pkg" and icsccm_version != "")
 
 - import_tasks: ecrpull.yml
   when: kubernetes_source_type != "http" and ecr == true

@@ -30,9 +30,23 @@ kubernetes_additional_imgs:
 - coredns.tar
 - etcd.tar
 
+kubernetes_cni_imgs:
+- calicocni.tar
+- calicokubecontrollers.tar
+- caliconode.tar
+- calicopod2daemon.tar
+
+kubernetes_dashboard_imgs:
+- dashboard.tar
+- metricsscraper.tar
+
 kubernetes_load_additional_imgs: false
 
 kubernetes_imgs: "{{ kubernetes_primary_imgs | union(kubernetes_additional_imgs) if kubernetes_load_additional_imgs | bool else kubernetes_primary_imgs }}"
+#kubernets_imgs_additional: "{{ kubernetes_primary_imgs | union(kubernetes_additional_imgs) if kubernetes_load_additional_imgs | bool else kubernetes_primary_imgs }}"
+#kubernets_imgs_cni: "{{ kubernetes_cni_imgs if kubernetes_cni | bool else '' }}"
+#kubernets_imgs_dashboard: "{{ kubernetes_dashboard_imgs) if kubernetes_dashboard | bool else '' }}"
+#kubernetes_imgs: "{{ kubernets_imgs_additional | union(kubernets_imgs_cni) | union(kubernets_imgs_dashboard) }}"
 
 kubernetes_cni_http_checksum: "sha1:{{ kubernetes_cni_http_source }}/{{ kubernetes_cni_semver }}/cni-plugins-{{ kubernetes_goarch }}-{{ kubernetes_cni_semver }}.tgz.sha1"
 

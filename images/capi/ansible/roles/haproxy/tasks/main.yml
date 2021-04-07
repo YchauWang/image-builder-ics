@@ -33,6 +33,12 @@
     owner: haproxy
     group: haproxy
 
+    #- name: Modify haproxy service depends
+    #  shell: sed -i '/^WantedBy=multi-user.target/d' /usr/lib/systemd/system/haproxy.service /lib/systemd/system/haproxy.service 2>&1
+
+    #- name: Delete /etc/systemd/system/multi-user.target.wants/haproxy.service
+    #  shell: rm -f /etc/systemd/system/multi-user.target.wants/haproxy.service 2>&1
+
 - name: Ensure haproxy service is enabled
   systemd:
     name: haproxy.service
@@ -57,6 +63,8 @@
     group: root
     mode: 0644
 
+    #- name: Modify haproxy service depends
+    #  shell: sed -i '/^WantedBy=multi-user.target/d' /usr/lib/systemd/system/haproxy.service
     #- name: Set LinkLocalAddressing to no
     #  lineinfile:
     #    path: /etc/systemd/network/99-dhcp-en.network

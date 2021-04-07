@@ -43,6 +43,7 @@
     owner: root
     group: root
     mode: "0755"
+  when: dataplane_url == ""
 
 - name: Creates unit file directory for cloud-config
   file:
@@ -56,6 +57,7 @@
     owner: root
     group: root
     mode: "0755"
+  when: dataplane_url == ""
 
 # Some OS might disable cloud-final service on boot (rhel 7).
 # Enable all cloud-init services on boot.
@@ -99,3 +101,11 @@
         packer_builder_type is search('vmware') or
         packer_builder_type is search('vsphere')) and
         ansible_os_family != "Flatcar"
+
+- name: Modify cloud-final service depends
+  shell: sed -i 's/^After=multi-user.target/#After=multi-user.target/g' /usr/lib/systemd/system/cloud-final.service /lib/systemd/system/cloud-final.service 2>&1
+  when: dataplane_url != "" 
+
+- name: Modify cloud-final service depends once
+  shell: sed -i 's/^After=multi-user.target/#After=multi-user.target/g' /etc/systemd/system/cloud-init.target.wants/cloud-final.service  2>&1
+  when: dataplane_url != ""

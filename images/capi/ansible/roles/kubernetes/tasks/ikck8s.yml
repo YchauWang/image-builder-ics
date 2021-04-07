@@ -1,0 +1,101 @@
+# Copyright 2021 The ICS Authors.
+#   
+#   # Licensed under the Apache License, Version 2.0 (the "License");
+#   # you may not use this file except in compliance with the License.
+#   # You may obtain a copy of the License at
+#
+#   # http://www.apache.org/licenses/LICENSE-2.0
+#
+#   # Unless required by applicable law or agreed to in writing, software
+#   # distributed under the License is distributed on an "AS IS" BASIS,
+#   # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   # See the License for the specific language governing permissions and
+#   # limitations under the License.
+---
+- name: Download Kubernetes images
+  get_url:
+    url: "{{ kubernetes_http_source }}/k8s/{{ kubernetes_semver }}/{{ item }}"
+    # TODO(akutz) Write a script to separately download the checksum
+    #     #             and verify the associated file using the correct
+    #         #             checksum file format
+    #             #checksum: "sha1:{{ kubernetes_http_source }}/{{ item }}.sha1"
+    dest: "/tmp/{{ item }}"
+    mode: 0600
+  loop: "{{ kubernetes_imgs }}"
+
+- name: Download Kubernetes CNI images
+  get_url:
+    url: "{{ kubernetes_http_source }}/cni/{{ item }}"
+    dest: "/tmp/{{ item }}"
+    mode: 0600
+  loop: "{{ kubernetes_cni_imgs }}"
+  when: kubernetes_cni == "true"
+
+- name: Download Kubernetes dashboard images
+  get_url:
+    url: "{{ kubernetes_http_source }}/dashboard/{{ item }}"
+    dest: "/tmp/{{ item }}"
+    mode: 0600
+  loop: "{{ kubernetes_dashboard_imgs }}"
+  when: kubernetes_dashboard == "true"
+
+- name: Load Kubernetes images
+  shell: 'CONTAINERD_NAMESPACE="k8s.io" ctr --address={{ containerd_cri_socket }} images import /tmp/{{ item }}'
+  loop: "{{ kubernetes_imgs }}"
+
+- name: Remove Kubernetes images
+  file:
+    state: absent
+    path: "/tmp/{{ item }}"
+  loop: "{{ kubernetes_imgs }}"
+
+- name: Load CNI plugin images
+  shell: 'CONTAINERD_NAMESPACE="k8s.io" ctr --address={{ containerd_cri_socket }} images import /tmp/{{ item }}'
+  loop: "{{ kubernetes_cni_imgs }}"
+  when: kubernetes_cni == "true"
+
+- name: Remove CNI plugin images
+  file:
+    state: absent
+    path: "/tmp/{{ item }}"
+  loop: "{{ kubernetes_cni_imgs }}"
+  when: kubernetes_cni == "true"
+
+- name: Load Dashboard images
+  shell: 'CONTAINERD_NAMESPACE="k8s.io" ctr --address={{ containerd_cri_socket }} images import /tmp/{{ item }}'
+  loop: "{{ kubernetes_dashboard_imgs }}"
+  when: kubernetes_dashboard == "true"
+
+- name: Remove Dashboard images
+  file:
+    state: absent
+    path: "/tmp/{{ item }}"
+  loop: "{{ kubernetes_dashboard_imgs }}"
+  when: kubernetes_dashboard == "true"
+
+## CNI and Dashboard Configuration
+- name: Creates the Kubernetes CNI directory
+  file:
+    path: /opt/calico
+    state: directory
+  when: kubernetes_cni == "true"
+
+- name: Creates the Kubernetes CNI directory
+  file:
+    path: /opt/dashboard
+    state: directory
+  when: kubernetes_dashboard == "true"
+
+- name: Create the Kubernetes CNI configuration
+  template:
+    dest: /opt/calico/calico.yaml
+    src: opt/calico/calico.yaml
+    mode: 0644
+  when: kubernetes_cni == "true"
+
+- name: Create the Kubernetes dashboard configuration
+  template:
+    dest: /opt/dashboard/dashboard.yaml
+    src: opt/dashboard/dashboard.yaml
+    mode: 0644
+  when: kubernetes_dashboard == "true"

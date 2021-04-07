@@ -47,13 +47,14 @@ common_debs:
 - python3-netifaces
 - python3-pip
 - socat
-- adduser
-- iptables
-- debconf
-- libc6
-- libdevmapper1.02.1
-- libseccomp2
-- libsystemd0
+- strace
+#- adduser
+#- iptables
+#- debconf
+#- libc6
+#- libdevmapper1.02.1
+#- libseccomp2
+#- libsystemd0
 
 common_photon_rpms:
 - audit

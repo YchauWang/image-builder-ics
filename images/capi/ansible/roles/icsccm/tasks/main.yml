@@ -21,11 +21,11 @@
 
 - name: ctr import csi common imagges
   shell: "ctr -n k8s.io images import /tmp/{{ item }}.tar"
-  register: whatss
+  #  register: whatss
   loop: "{{ commonimages.split() }}"
 
-- name: show why
-  debug: var=whatss verbosity=0
+  #- name: show why
+  #  debug: var=whatss verbosity=0
 
 - name: download csi commom images
   get_url:
