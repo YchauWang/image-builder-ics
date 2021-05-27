@@ -65,6 +65,16 @@
     group: root
     mode: "0644"
 
+- name: configure resolved rules for system
+  copy:
+    src: etc/systemd/resolved.conf
+    dest: /etc/systemd/resolved.conf
+    force: yes
+    owner: root
+    group: root
+    mode: 0644
+  when: ansible_os_family == "Debian"
+
 - name: Truncate audit logs
   file:
     state: "{{ item.state }}"
