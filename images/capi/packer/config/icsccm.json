@@ -1,10 +1,11 @@
 {
-    "livenessprobe_version": "livenessprobe_v1.1.0",
-    "csi_provisioner_version": "csi-provisioner_v1.2.2",
-    "csi_attacher_version": "csi-attacher_v1.1.1",
-    "csi_node_driver_registrar_version": "csi-node-driver-registrar_v1.1.0",
-    "ics_csi_driver_version": "ics-csi-driver_latest",
-    "ics_csi_syncer_version": "ics-csi-syncer_latest",
+    "livenessprobe_version": "livenessprobe-v2.1.0",
+    "csi_provisioner_version": "csi-provisioner-v2.1.0",
+    "csi_attacher_version": "csi-attacher-v2.2.1",
+    "csi_node_driver_registrar_version": "csi-node-driver-registrar-v2.1.0",
+    "csi_resizer_version": "csi-resizer-v1.1.0",
+    "ics_csi_driver_version": "ics-csi-driver-latest",
+    "ics_csi_syncer_version": "ics-csi-syncer-latest",
     "icsccm_version": "icsccm_v1.5",
     "ics_ccmcsi_http_source": "http://{{user `user_ip`}}/ccm/"
 }

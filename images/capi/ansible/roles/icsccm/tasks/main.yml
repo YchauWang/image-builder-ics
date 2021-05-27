@@ -84,22 +84,6 @@
     group: root
     mode: "0644"
 
-- name: copy in ics-csi-controller
-  copy:
-    dest: /etc/deploy/ics-csi-controller.yaml
-    src: etc/deploy/ics-csi-controller.yaml
-    owner: root
-    group: root
-    mode: "0644"
-
-- name: copy in ics-csi-node
-  copy:
-    dest: /etc/deploy/ics-csi-node.yaml
-    src: etc/deploy/ics-csi-node.yaml
-    owner: root
-    group: root
-    mode: "0644"
-
 - name: copy in cloud-controller-manager-roles
   copy:
     dest: /etc/deploy/cloud-controller-manager-roles.yaml
@@ -112,14 +96,6 @@
   copy:
     dest: /etc/deploy/cloud-controller-manager-role-bindings.yaml
     src: etc/deploy/cloud-controller-manager-role-bindings.yaml
-    owner: root
-    group: root
-    mode: "0644"
-
-- name: copy in ics-csi-controller-rbac
-  copy:
-    dest: /etc/deploy/ics-csi-controller-rbac.yaml
-    src: etc/deploy/ics-csi-controller-rbac.yaml
     owner: root
     group: root
     mode: "0644"

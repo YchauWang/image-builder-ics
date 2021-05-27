@@ -12,6 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ---
-commonimages: "{{ csi_provisioner_version }} {{ csi_attacher_version }} {{ csi_node_driver_registrar_version }} {{ livenessprobe_version }}"
+commonimages: "{{ csi_provisioner_version }} {{ csi_attacher_version }} {{ csi_node_driver_registrar_version }} {{csi_resizer_version}} {{ livenessprobe_version }}"
 
 icsimages: "{{ ics_csi_driver_version }} {{ ics_csi_syncer_version }} {{ icsccm_version }}"

@@ -4,7 +4,7 @@
     "ansible_extra_vars": "ansible_python_interpreter=/usr/bin/python3",
     "boot_wait": "10s",
     "build_timestamp": "{{timestamp}}",
-    "user_ip": "192.168.43.128",
+    "user_ip": "192.168.56.101",
     "dataplaneapi_version": "v1.2.4",
     "dataplane_url": "http://{{user `user_ip`}}/haproxy/{{user `dataplaneapi_version`}}/dataplaneapi",
     "existing_ansible_ssh_args": "{{env `ANSIBLE_SSH_ARGS`}}",

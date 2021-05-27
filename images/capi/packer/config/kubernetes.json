@@ -10,7 +10,7 @@
   "kubernetes_rpm_gpg_check": "True",
   "kubernetes_deb_repo": "\"https://mirrors.aliyun.com/kubernetes/apt/ kubernetes-xenial main\"",
   "kubernetes_deb_gpg_key": "https://mirrors.aliyun.com/kubernetes/apt/doc/apt-key.gpg",
-  "kubernetes_container_registry": "registry.cn-hangzhou.aliyuncs.com/google_containers",
+  "kubernetes_container_registry": "k8s.gcr.io",
   "kubernetes_load_additional_imgs": "true",
   "kubernetes_cni": "true",
   "kubernetes_dashboard": "true",
