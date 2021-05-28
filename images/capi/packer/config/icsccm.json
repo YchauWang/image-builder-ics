@@ -7,5 +7,6 @@
     "ics_csi_driver_version": "ics-csi-driver-latest",
     "ics_csi_syncer_version": "ics-csi-syncer-latest",
     "icsccm_version": "icsccm-v1.5",
+    "busybox_version": "busybox-latest",
     "ics_ccmcsi_http_source": "http://{{user `user_ip`}}/ccm/"
 }
