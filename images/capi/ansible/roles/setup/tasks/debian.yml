@@ -73,3 +73,9 @@
     name: "{{ pinned_debs }}"
     state: present
     force: yes
+
+- name: Remove apt package caches
+  apt:
+    autoclean: yes
+    autoremove: yes
+    force_apt_get: yes

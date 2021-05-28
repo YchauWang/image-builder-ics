@@ -12,17 +12,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ---
-- name: Add the Kubernetes repo key
-  apt_key:
-    url: "{{ kubernetes_deb_gpg_key }}"
-    state: present
-
-- name: Add the Kubernetes repo
-  apt_repository:
-    repo: "{{ 'deb ' ~ kubernetes_deb_repo ~ ' main' }}"
-    update_cache: True
-    state: present
-    mode: 0644
+#- name: Add the Kubernetes repo key
+#  apt_key:
+#    url: "{{ kubernetes_deb_gpg_key }}"
+#    state: present
+#
+#- name: Add the Kubernetes repo
+#  apt_repository:
+#    repo: "{{ 'deb ' ~ kubernetes_deb_repo ~ ' main' }}"
+#    update_cache: True
+#    state: present
+#    mode: 0644
 
 - name: Install Kubernetes
   apt:
@@ -33,3 +33,9 @@
       - "kubeadm={{ kubernetes_deb_version }}"
       - "kubectl={{ kubernetes_deb_version }}"
       - "kubernetes-cni={{kubernetes_cni_deb_version }}"
+
+- name: Remove apt package caches
+  apt:
+    autoclean: yes
+    autoremove: yes
+    force_apt_get: yes
