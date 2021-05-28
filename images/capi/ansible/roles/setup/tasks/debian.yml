@@ -57,7 +57,7 @@
 - name: install baseline dependencies
   apt:
     force_apt_get: yes
-    update_cache: yes
+    update_cache: no
     name: "{{ debs }}"
     state: present
 

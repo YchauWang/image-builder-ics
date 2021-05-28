@@ -6,7 +6,7 @@
     "build_timestamp": "{{timestamp}}",
     "containerd_version": null,
     "containerd_sha256": null,
-    "user_ip": "192.168.56.101",
+    "user_ip": "192.168.137.118",
     "containerd_url": "http://{{user `user_ip`}}/runtime/cri-containerd-cni-{{user `containerd_version`}}-linux-amd64.tar.gz",
     "crictl_version": null,
     "crictl_url": "http://{{user `user_ip`}}/runtime/crictl-v{{user `crictl_version`}}-linux-amd64.tar.gz",

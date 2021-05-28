@@ -6,6 +6,6 @@
     "csi_resizer_version": "csi-resizer-v1.1.0",
     "ics_csi_driver_version": "ics-csi-driver-latest",
     "ics_csi_syncer_version": "ics-csi-syncer-latest",
-    "icsccm_version": "icsccm_v1.5",
+    "icsccm_version": "icsccm-v1.5",
     "ics_ccmcsi_http_source": "http://{{user `user_ip`}}/ccm/"
 }
